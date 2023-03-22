@@ -7,10 +7,11 @@ public class HomeWork {
         //Fibonacci
         Fibonacci fibonacci = new Fibonacci();
         fibonacci.getFibonacciRow(10);
+        System.out.println();
 
         //Palindrome
         Palindrome palindrome = new Palindrome();
-        System.out.println("\nIs Palindrome: " + palindrome.isPalindrome(121));
+        System.out.println("Is Palindrome: " + palindrome.isPalindrome(121));
 
         //Sqrt
         Sqrt sqrt = new Sqrt();

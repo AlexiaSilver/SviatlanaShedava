@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class FizzBuzz {
     public void fizzBuzz() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\nEnter the number: ");
+        System.out.println("Enter the number: ");
         while (sc.hasNext()) {
             int x = sc.nextInt();
             if (x % 15 == 0)
