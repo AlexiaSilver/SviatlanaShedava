@@ -8,8 +8,9 @@ public class LastWord {
         for (int i = 0; i < x.length(); i++) {
             if (x.charAt(i) == ' ') {
                 length = 0;
-            } else
+            } else {
                 length++;
+            }
         }
         return length;
     }
