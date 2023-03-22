@@ -14,10 +14,6 @@ public class Palindrome {
             rev = (rev * 10) + dig;
             x = x / 10;
         }
-        if (rev == number) {
-            return true;
-        }else {
-            return false;
-        }
+        return rev == number;
     }
 }
