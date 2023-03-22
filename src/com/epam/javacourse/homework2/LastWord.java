@@ -6,9 +6,9 @@ public class LastWord {
         String x = s.trim();
 
         for (int i = 0; i < x.length(); i++) {
-            if (x.charAt(i) == ' ')
+            if (x.charAt(i) == ' ') {
                 length = 0;
-            else
+            } else
                 length++;
         }
         return length;
