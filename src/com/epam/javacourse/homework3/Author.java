@@ -1,4 +1,4 @@
-package com.epam.javacourse.hometask3;
+package com.epam.javacourse.homework3;
 
 public class Author {
     private String firstName;
@@ -32,7 +32,7 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }

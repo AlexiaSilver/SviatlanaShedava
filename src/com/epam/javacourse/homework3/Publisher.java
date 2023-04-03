@@ -1,4 +1,4 @@
-package com.epam.javacourse.hometask3;
+package com.epam.javacourse.homework3;
 
 public class Publisher {
     private int id;

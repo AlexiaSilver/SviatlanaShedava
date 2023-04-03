@@ -1,4 +1,4 @@
-package com.epam.javacourse.hometask3;
+package com.epam.javacourse.homework3;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,6 +7,6 @@ public class Main {
         books[1] = new Book("978-0449912515", "Spark of Life", new Author("Erich", "Maria Remarque"), new Publisher(2, "Appleton-Century-Crofts", "Hutchinson, UK, 1620-81"), "April 10, 1952", false);
         books[2] = new Book("965-0485912335", "Perfume: The Story of a Murderer", new Author("Patrick", "Süskind"), new Publisher(3, "Diogenes Verlag", "Zürich, Switzerland, 8032"), "August 1, 2008", true);
 
-        Bookstore.displayBooksByAuthor("Erich Maria Remarque", books);
+        new Bookstore().displayBooksByAuthorsFullName("Erich Maria Remarque", books);
     }
 }
