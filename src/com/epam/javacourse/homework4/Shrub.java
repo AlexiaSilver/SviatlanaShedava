@@ -1,52 +1,34 @@
 package com.epam.javacourse.homework4;
 
-public class Shrub implements Plant {
-    String name;
-    String type;
-    String nativeRegion;
+public class Shrub extends Plant {
+    private final int height;
 
-    @Override
-    public void createPlant(String name, String type, String nativeRegion) {
-        this.name = name;
-        this.type = type;
-        this.nativeRegion = nativeRegion;
-        System.out.println(type + " is created.");
-    }
-
-    @Override
-    public void updatePlant(String name, String type, String nativeRegion) {
-        this.name = name;
-        this.type = type;
-        this.nativeRegion = nativeRegion;
-        System.out.println(type + " is updated.");
-    }
-
-    @Override
-    public void removePlant(String name) {
-        this.name = name;
-        System.out.println(name + " is removed from Greenhouse.");
+    public Shrub(String name, String type, String nativeRegion, int height) {
+        super(name, type, nativeRegion);
+        this.height = height;
     }
 
     @Override
     public String getPlantType() {
-
-        return type;
+        return "Shrub";
     }
 
     @Override
     public String getNativeRegion() {
-
-        return nativeRegion;
+        return super.getNativeRegion();
     }
 
     @Override
     public String getPlantName() {
-
-        return name;
+        return super.getPlantName();
     }
 
-    public static void specificShrubMethod() {
+    private int getHeight() {
+        return height;
+    }
 
+    @Override
+    public void water() {
+        System.out.println("Watering " + getPlantName() + ", a flowering plant");
     }
 }
-

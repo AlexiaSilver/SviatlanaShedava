@@ -1,41 +1,44 @@
 package com.epam.javacourse.homework4;
 
-/**
- * An interface representing a plant that can be stored in a greenhouse.
- */
-public interface Plant {
+public abstract class Plant {
+    public String name;
+    private String type;
+    private String nativeRegion;
 
-    /**
-     * Creates a new plant with the specified name, type, and native region.
-     */
-    void createPlant(String name, String type, String nativeRegion);
-
-    /**
-     * Updates the information for an existing plant with the specified name, type, and native region.
-     */
-    void updatePlant(String name, String type, String nativeRegion);
-
-    /**
-     * Removes the plant with the specified name from the greenhouse.
-     */
-    default void removePlant(String name) {
-
-        System.out.println(name + " is removed from Greenhouse.");
+    public Plant(String name, String type, String nativeRegion) {
+        this.name = name;
+        this.type = type;
+        this.nativeRegion = nativeRegion;
     }
 
-    /**
-     * Returns the type of the plant.
-     */
-    String getPlantType();
+    public String getPlantName() {
+        return name;
+    }
 
-    /**
-     * Returns the native region of the plant.
-     */
-    String getNativeRegion();
+    public abstract String getPlantType();
 
-    /**
-     * Returns the name of the plant.
-     */
-    String getPlantName();
+    public String getNativeRegion() {
+        return nativeRegion;
+    }
 
+    public void setPlantName(String name) {
+        this.name = name;
+    }
+
+    public void setPlantType(String type) {
+        this.type = type;
+    }
+
+    public void setNativeRegion(String nativeRegion) {
+        this.nativeRegion = nativeRegion;
+    }
+
+    public String toString() {
+        String output = "Name: " + name + "\n";
+        output += "Type: " + type + "\n";
+        output += "Native Region: " + nativeRegion + "\n";
+        return output;
+    }
+
+    public abstract void water();
 }

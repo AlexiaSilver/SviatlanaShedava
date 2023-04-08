@@ -1,49 +1,35 @@
 package com.epam.javacourse.homework4;
 
-public class HousePlant implements Plant {
-    String name;
-    String type;
-    String nativeRegion;
+public class HousePlant extends Plant {
 
-    @Override
-    public void createPlant(String name, String type, String nativeRegion) {
-        this.name = name;
-        this.type = type;
-        this.nativeRegion = nativeRegion;
-        System.out.println("House plant is created.");
-    }
+    private final boolean needsSunlight;
 
-    @Override
-    public void updatePlant(String name, String type, String nativeRegion) {
-        this.name = name;
-        this.type = type;
-        this.nativeRegion = nativeRegion;
-        System.out.println("House plant is updated.");
-    }
-
-    @Override
-    public void removePlant(String name) {
-        this.name = name;
-        System.out.println(name + " is removed from Greenhouse.");
+    public HousePlant(String name, String type, String nativeRegion, boolean needsSunlight) {
+        super(name, type, nativeRegion);
+        this.needsSunlight = needsSunlight;
     }
 
     @Override
     public String getPlantType() {
-        return type;
+        return "House Plant";
     }
 
     @Override
     public String getNativeRegion() {
-
-        return nativeRegion;
+        return super.getNativeRegion();
     }
 
     @Override
     public String getPlantName() {
-        return name;
-
+        return super.getPlantName();
     }
-    public static void specificHousePlantMethod() {
 
+    @Override
+    public void water() {
+        System.out.println("Watering " + getPlantName() + ", a flowering plant");
+    }
+
+    public boolean isNeedsSunlight() {
+        return needsSunlight;
     }
 }
