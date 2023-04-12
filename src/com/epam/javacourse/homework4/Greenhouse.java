@@ -36,22 +36,7 @@ public interface Greenhouse {
      * Creates a new Plant object with the given name, type, and native region,
      * and adds it to the greenhouse inventory.
      */
-    void createPlant(String name, String type, String nativeRegion);
-
-    /**
-     * Creates a new FloweringPlant object and adds it to the greenhouse inventory.
-     */
-    void createPlant(FloweringPlant floweringPlant);
-
-    /**
-     * Creates a new HousePlant object and adds it to the greenhouse inventory.
-     */
-    void createPlant(HousePlant housePlant);
-
-    /**
-     * Creates a new Shrub object and adds it to the greenhouse inventory.
-     */
-    void createPlant(Shrub shrub);
+    void addPlant(Plant plant);
 
     /**
      * Updates the given plant with a new name.

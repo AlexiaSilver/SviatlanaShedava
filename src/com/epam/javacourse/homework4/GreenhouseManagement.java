@@ -4,62 +4,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GreenhouseManagement implements Greenhouse {
-
-    public final List<Plant> plants;
+    private final List<Plant> plants;
+    private final List<Plant> availablePlants;
     public double temperature;
 
     public GreenhouseManagement() {
         this.plants = new ArrayList<>();
+        this.availablePlants = new ArrayList<>();
         this.temperature = 0;
     }
 
     public void addPlant(Plant plant) {
-        if (!plants.contains(plant)) {
-            this.plants.add(plant);
-            System.out.println("Plant " + plant.getPlantName() + " added to the greenhouse.");
+        if (!plants.contains(plant) && !availablePlants.contains(plant)) {
+            this.availablePlants.add(plant);
+            System.out.println("Plant " + plant.getPlantName() + " added to the list of available plants.");
         } else {
             System.out.println("Plant " + plant.getPlantName() + " is already in the greenhouse.");
         }
     }
 
     @Override
-    public void createPlant(String plantName, String plantType, String nativeRegion) {
-        Plant plant = new Plant(plantName, plantType, nativeRegion) {
-
-            @Override
-            public String getPlantType() {
-                return null;
-            }
-
-            @Override
-            public void water() {
-
-            }
-        };
-        addPlant(plant);
-    }
-
-    @Override
     public void buyPlant(String plantName) {
         Plant plantToBuy = null;
-        for (Plant plant : plants) {
+        for (Plant plant : availablePlants) {
             if (plant.getPlantName().equals(plantName)) {
                 plantToBuy = plant;
                 break;
             }
         }
         if (plantToBuy == null) {
-            System.out.println("No plant with the given name found.");
+            System.out.println("No plant with the given name found in the list of available plants.");
         } else {
-            plants.remove(plantToBuy);
-            System.out.println("Plant " + plantName + " is bought.");
+            availablePlants.remove(plantToBuy);
+            plants.add(plantToBuy);
+            System.out.println("Plant " + plantName + " is bought and added to the greenhouse.");
         }
+    }
+
+    /**
+     * An anonymous inner class that represents a watering system for the greenhouse.
+     */
+    public abstract static class WateringSystem {
+        public abstract void water(Plant plant);
     }
 
     @Override
     public void waterPlants() {
+        WateringSystem wateringSystem = new WateringSystem() {
+            @Override
+            public void water(Plant plant) {
+                System.out.println("Watering " + plant.getPlantName());
+            }
+        };
         for (Plant plant : this.plants) {
-            plant.water();
+            wateringSystem.water(plant);
         }
     }
 
@@ -86,25 +84,25 @@ public class GreenhouseManagement implements Greenhouse {
         System.out.println("Plant " + plant.getPlantName() + " updated in the greenhouse.");
     }
 
-    @Override
-    public void createPlant(FloweringPlant newPlant) {
+    /**
+     * A nested class that represents a garden tool for the greenhouse.
+     */
+    public class GardenTool {
+        private final String name;
 
-    }
+        public GardenTool(String name) {
+            this.name = name;
+        }
 
-    @Override
-    public void createPlant(HousePlant newPlant) {
-
-    }
-
-    @Override
-    public void createPlant(Shrub newPlant) {
-
+        public void use() {
+            System.out.println("Using " + name + " to take care of the plants.");
+        }
     }
 
     /**
      * A static inner class that represents a temperature sensor for the greenhouse.
      */
-    public class TemperatureSensor {
+    public static class TemperatureSensor {
         public final double temperature;
 
         public TemperatureSensor(double temperature) {

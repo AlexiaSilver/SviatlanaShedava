@@ -2,11 +2,11 @@ package com.epam.javacourse.homework4;
 
 public class HousePlant extends Plant {
 
-    private final boolean needsSunlight;
+    private final boolean hasNeedForSunlight;
 
-    public HousePlant(String name, String type, String nativeRegion, boolean needsSunlight) {
+    public HousePlant(String name, String type, String nativeRegion, boolean hasNeedForSunlight) {
         super(name, type, nativeRegion);
-        this.needsSunlight = needsSunlight;
+        this.hasNeedForSunlight = hasNeedForSunlight;
     }
 
     @Override
@@ -25,11 +25,11 @@ public class HousePlant extends Plant {
     }
 
     @Override
-    public void water() {
-        System.out.println("Watering " + getPlantName() + ", a flowering plant");
-    }
-
-    public boolean isNeedsSunlight() {
-        return needsSunlight;
+    public String toString() {
+        String output = "Name: " + getPlantName() + "\n";
+        output += "Type: " + getPlantType() + "\n";
+        output += "Native Region: " + getNativeRegion() + "\n";
+        output += "Requires Sunlight: " + hasNeedForSunlight + "\n";
+        return output;
     }
 }
