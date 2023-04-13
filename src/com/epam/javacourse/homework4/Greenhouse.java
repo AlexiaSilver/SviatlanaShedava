@@ -23,11 +23,6 @@ public interface Greenhouse {
     void removePlant(Plant plant);
 
     /**
-     * Sets the temperature of the greenhouse.
-     */
-    void setTemperature(double temperature);
-
-    /**
      * Receives the list of plants.
      */
     List<Plant> getPlants();
