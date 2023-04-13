@@ -6,6 +6,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         GreenhouseManagement greenhouse = new GreenhouseManagement();
+        Greenhouse mysteryGreenhouse = greenhouse.greenhouse;
+        List<Plant> mysteryPlants = mysteryGreenhouse.getPlants();
+        for (Plant plant : mysteryPlants) {
+            System.out.println("Mystery plant: " + plant.getPlantName());
+        }
         Scanner scanner = new Scanner(System.in);
         GreenhouseManagement.TemperatureSensor sensor = new GreenhouseManagement.TemperatureSensor(25.0);
         double currentTemperature = sensor.getTemperature();
@@ -15,7 +20,7 @@ public class Main {
 
         boolean exit = false;
         do {
-            System.out.println("Enter 1 to create a new plant, 2 to receive available plants, 3 to buy a new plant, 4 to display all plants in the greenhouse, 5 to update a plant, 6 to remove a plant, 7 to water the plants, 8 to set the temperature, 9 to exit:");
+            System.out.println("Enter 1 to create a new plant, 2 to receive available plants, 3 to buy a new plant, 4 to display all plants in the basket, 5 to update a plant, 6 to remove a plant, 7 to water the plants, 8 to set the temperature, 9 to exit:");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -77,9 +82,9 @@ public class Main {
                 case 4 -> {
                     List<Plant> reservedPlants = greenhouse.getReservedPlants();
                     if (reservedPlants.isEmpty()) {
-                        System.out.println("No plants found in the greenhouse.");
+                        System.out.println("No plants found.");
                     } else {
-                        System.out.println("All plants in the greenhouse:");
+                        System.out.println("All plants in the basket:");
                         for (Plant plant : reservedPlants) {
                             System.out.println(plant);
                         }

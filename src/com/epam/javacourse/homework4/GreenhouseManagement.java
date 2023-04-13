@@ -49,20 +49,10 @@ public class GreenhouseManagement implements Greenhouse {
         return reservedPlants;
     }
 
-    public abstract static class WateringSystem {
-        public abstract void water(Plant plant);
-    }
-
     @Override
     public void waterPlants() {
-        WateringSystem wateringSystem = new WateringSystem() {
-            @Override
-            public void water(Plant plant) {
-                System.out.println("Watering " + plant.getPlantName());
-            }
-        };
-        for (Plant plant : this.reservedPlants) {
-            wateringSystem.water(plant);
+        for (Plant plant : this.availablePlants) {
+            System.out.println("Watering " + plant.getPlantName());
         }
     }
 
@@ -160,4 +150,3 @@ public class GreenhouseManagement implements Greenhouse {
         }
     };
 }
-
