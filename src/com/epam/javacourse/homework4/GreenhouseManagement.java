@@ -1,14 +1,20 @@
 package com.epam.javacourse.homework4;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GreenhouseManagement implements Greenhouse {
+    private static final Path FILE_NAME = Paths.get("C:\\Users\\Sviatlana_Shedava\\IdeaProjects\\SviatlanaShedava5\\src\\com\\epam\\javacourse\\homework4\\plants.txt");
+    private static final String DELIMITER = ";";
     private final List<Plant> reservedPlants;
     private final List<Plant> availablePlants;
     public double temperature;
 
-    public GreenhouseManagement() {
+    public GreenhouseManagement(Path path) {
         this.reservedPlants = new ArrayList<>();
         this.availablePlants = new ArrayList<>();
         this.temperature = 0;
@@ -17,6 +23,7 @@ public class GreenhouseManagement implements Greenhouse {
     public void addPlant(Plant plant) {
         if (!reservedPlants.contains(plant) && !availablePlants.contains(plant)) {
             this.availablePlants.add(plant);
+            savePlantsToFile();
             System.out.println("Plant " + plant.getPlantName() + " added to the list of available plants.");
         } else {
             System.out.println("Plant " + plant.getPlantName() + " is already in the greenhouse.");
@@ -41,14 +48,6 @@ public class GreenhouseManagement implements Greenhouse {
         }
     }
 
-    public List<Plant> getAvailablePlants() {
-        return availablePlants;
-    }
-
-    public List<Plant> getReservedPlants() {
-        return reservedPlants;
-    }
-
     @Override
     public void waterPlants() {
         for (Plant plant : this.availablePlants) {
@@ -57,9 +56,54 @@ public class GreenhouseManagement implements Greenhouse {
     }
 
     @Override
-    public void removePlant(Plant plant) {
-        this.reservedPlants.remove(plant);
-        System.out.println("Plant " + plant.getPlantName() + " removed from the greenhouse.");
+    public void removePlant(String plantName) throws InvalidOptionException {
+        Plant plantToRemove = null;
+        for (Plant plant : availablePlants) {
+            if (plant.getPlantName().equalsIgnoreCase(plantName)) {
+                plantToRemove = plant;
+                break;
+            }
+        }
+        if (plantToRemove == null) {
+            throw new InvalidOptionException("Plant " + plantName + " not found in the greenhouse.");
+        }
+        availablePlants.remove(plantToRemove);
+        savePlantsToFile();
+        System.out.println("Plant " + plantToRemove.getPlantName() + " removed from the greenhouse.");
+    }
+
+    @Override
+    public void savePlantsToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(String.valueOf(FILE_NAME)))) {
+            for (Plant plant : availablePlants) {
+                writer.println(plant.toString());
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving plants to file: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void readPlantsFromFile() {
+        try (Scanner scanner = new Scanner(FILE_NAME)) {
+            availablePlants.clear();
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(DELIMITER);
+                String plantType = parts[0];
+                String plantName = parts[1];
+                String plantDescription = parts[2];
+                Plant plant = new Plant(plantName, plantType, plantDescription) {
+                    @Override
+                    public String getPlantType() {
+                        return null;
+                    }
+                };
+                availablePlants.add(plant);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading plants from file: " + e.getMessage());
+        }
     }
 
     @Override
@@ -133,7 +177,8 @@ public class GreenhouseManagement implements Greenhouse {
         }
 
         @Override
-        public void removePlant(Plant plant) {
+        public void readPlantsFromFile() {
+
         }
 
         @Override
@@ -148,5 +193,26 @@ public class GreenhouseManagement implements Greenhouse {
         @Override
         public void updatePlant(Plant plant, String newName) {
         }
+
+        @Override
+        public void removePlant(String plantName) throws InvalidOptionException {
+
+        }
+
+        @Override
+        public void savePlantsToFile() {
+
+        }
     };
+    public List<Plant> searchPlants(String searchTerm) {
+        List<Plant> matchingPlants = new ArrayList<>();
+        for (Plant plant : availablePlants) {
+            if (plant.getPlantName().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    plant.getPlantType().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    plant.getNativeRegion().toLowerCase().contains(searchTerm.toLowerCase())) {
+                matchingPlants.add(plant);
+            }
+        }
+        return matchingPlants;
+    }
 }
