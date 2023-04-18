@@ -1,14 +1,18 @@
 package com.epam.javacourse.homework4;
 
+import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GreenhouseManagement implements Greenhouse {
+    private final Path path;
     private final List<Plant> reservedPlants;
     private final List<Plant> availablePlants;
     public double temperature;
 
-    public GreenhouseManagement() {
+    public GreenhouseManagement(Path path) {
+        this.path = path;
         this.reservedPlants = new ArrayList<>();
         this.availablePlants = new ArrayList<>();
         this.temperature = 0;
@@ -17,6 +21,7 @@ public class GreenhouseManagement implements Greenhouse {
     public void addPlant(Plant plant) {
         if (!reservedPlants.contains(plant) && !availablePlants.contains(plant)) {
             this.availablePlants.add(plant);
+            savePlantsToFile();
             System.out.println("Plant " + plant.getPlantName() + " added to the list of available plants.");
         } else {
             System.out.println("Plant " + plant.getPlantName() + " is already in the greenhouse.");
@@ -41,14 +46,6 @@ public class GreenhouseManagement implements Greenhouse {
         }
     }
 
-    public List<Plant> getAvailablePlants() {
-        return availablePlants;
-    }
-
-    public List<Plant> getReservedPlants() {
-        return reservedPlants;
-    }
-
     @Override
     public void waterPlants() {
         for (Plant plant : this.availablePlants) {
@@ -57,9 +54,31 @@ public class GreenhouseManagement implements Greenhouse {
     }
 
     @Override
-    public void removePlant(Plant plant) {
-        this.reservedPlants.remove(plant);
-        System.out.println("Plant " + plant.getPlantName() + " removed from the greenhouse.");
+    public void removePlant(String plantName) throws InvalidOptionException {
+        Plant plantToRemove = null;
+        for (Plant plant : availablePlants) {
+            if (plant.getPlantName().equalsIgnoreCase(plantName)) {
+                plantToRemove = plant;
+                break;
+            }
+        }
+        if (plantToRemove == null) {
+            throw new InvalidOptionException("Plant " + plantName + " not found in the greenhouse.");
+        }
+        availablePlants.remove(plantToRemove);
+        savePlantsToFile();
+        System.out.println("Plant " + plantToRemove.getPlantName() + " removed from the greenhouse.");
+    }
+
+    @Override
+    public void savePlantsToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(String.valueOf(path)))) {
+            for (Plant plant : availablePlants) {
+                writer.println(plant.toString());
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving plants to file: " + e.getMessage());
+        }
     }
 
     @Override
@@ -123,6 +142,7 @@ public class GreenhouseManagement implements Greenhouse {
 
         @Override
         public void buyPlant(String name) {
+            System.out.println("Not available.");
         }
 
         @Override
@@ -133,20 +153,41 @@ public class GreenhouseManagement implements Greenhouse {
         }
 
         @Override
-        public void removePlant(Plant plant) {
-        }
-
-        @Override
         public List<Plant> getPlants() {
             return mysteryPlant;
         }
 
         @Override
         public void addPlant(Plant plant) {
+            System.out.println("The plant is still growing..");
         }
 
         @Override
         public void updatePlant(Plant plant, String newName) {
+            System.out.println("Not available.");
+        }
+
+        @Override
+        public void removePlant(String plantName) throws InvalidOptionException {
+            System.out.println("Not available.");
+
+        }
+
+        @Override
+        public void savePlantsToFile() {
+            System.out.println("Not available.");
         }
     };
+
+    public List<Plant> searchPlants(String searchTerm) {
+        List<Plant> matchingPlants = new ArrayList<>();
+        for (Plant plant : availablePlants) {
+            if (plant.getPlantName().equalsIgnoreCase(searchTerm) ||
+                    plant.getPlantType().equalsIgnoreCase(searchTerm) ||
+                    plant.getNativeRegion().equalsIgnoreCase(searchTerm)) {
+                matchingPlants.add(plant);
+            }
+        }
+        return matchingPlants;
+    }
 }

@@ -18,11 +18,6 @@ public interface Greenhouse {
     void waterPlants();
 
     /**
-     * Removes the given plant from the greenhouse inventory.
-     */
-    void removePlant(Plant plant);
-
-    /**
      * Receives the list of plants.
      */
     List<Plant> getPlants();
@@ -37,4 +32,14 @@ public interface Greenhouse {
      * Updates the given plant with a new name.
      */
     void updatePlant(Plant plant, String newName);
+
+    /**
+     * Removes the given plant from the greenhouse inventory.
+     */
+    void removePlant(String plantName) throws InvalidOptionException;
+
+    /**
+     * Saves plants to file
+     */
+    void savePlantsToFile();
 }

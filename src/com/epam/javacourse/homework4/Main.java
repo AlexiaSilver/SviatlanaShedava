@@ -1,11 +1,14 @@
 package com.epam.javacourse.homework4;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        GreenhouseManagement greenhouse = new GreenhouseManagement();
+
+    public static void main(String[] args) throws InvalidChoiceException, IllegalStateException {
+        Path path = Path.of("src/com/epam/javacourse/resources/plants.txt");
+        GreenhouseManagement greenhouse = new GreenhouseManagement(path);
         Greenhouse mysteryGreenhouse = greenhouse.greenhouse;
         List<Plant> mysteryPlants = mysteryGreenhouse.getPlants();
         for (Plant plant : mysteryPlants) {
@@ -15,12 +18,11 @@ public class Main {
         GreenhouseManagement.TemperatureSensor sensor = new GreenhouseManagement.TemperatureSensor(25.0);
         double currentTemperature = sensor.getTemperature();
         System.out.println("Current temperature: " + currentTemperature + " degrees Celsius");
-        GreenhouseManagement myGreenhouse = new GreenhouseManagement();
-        Plant.useGardenTool(myGreenhouse, "Watering can");
+        Plant.useGardenTool(greenhouse, "Watering can");
 
         boolean exit = false;
         do {
-            System.out.println("Enter 1 to create a new plant, 2 to receive available plants, 3 to buy a new plant, 4 to display all plants in the basket, 5 to update a plant, 6 to remove a plant, 7 to water the plants, 8 to set the temperature, 9 to exit:");
+            System.out.println("Enter 1 Add a new plant to the greenhouse, 2 Remove a plant from the greenhouse, 3 Find a plant in the greenhouse by any parameter, 4 Quit:");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -59,92 +61,38 @@ public class Main {
                             greenhouse.addPlant(newPlant);
                             System.out.println("New shrub added successfully.");
                         }
-                        default -> System.out.println("Invalid plant type entered.");
+                        default -> throw new IllegalStateException("Unexpected value: " + type);
                     }
+                    greenhouse.savePlantsToFile();
                 }
                 case 2 -> {
-                    List<Plant> availablePlants = greenhouse.getAvailablePlants();
-                    if (availablePlants.isEmpty()) {
-                        System.out.println("No available plants found.");
-                    } else {
-                        System.out.println("Available plants:");
-                        for (Plant plant : availablePlants) {
-                            System.out.println(plant);
-                        }
+                    System.out.println("Enter the name of the plant to remove:");
+                    String plant = scanner.nextLine();
+                    try {
+                        greenhouse.removePlant(plant);
+                        System.out.println("Plant removed successfully.");
+                    } catch (InvalidOptionException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 case 3 -> {
-                    System.out.println("Enter the name of the plant to buy:");
-                    String name = scanner.nextLine();
-
-                    greenhouse.buyPlant(name);
-                }
-                case 4 -> {
-                    List<Plant> reservedPlants = greenhouse.getReservedPlants();
-                    if (reservedPlants.isEmpty()) {
-                        System.out.println("No plants found.");
+                    System.out.println("Enter the search term (name, type or region):");
+                    String search = scanner.nextLine();
+                    List<Plant> result = greenhouse.searchPlants(search);
+                    if (result.isEmpty()) {
+                        System.out.println("No matching plants found.");
                     } else {
-                        System.out.println("All plants in the basket:");
-                        for (Plant plant : reservedPlants) {
+                        System.out.println("Matching plants:");
+                        for (Plant plant : result) {
                             System.out.println(plant);
                         }
                     }
                 }
-                case 5 -> {
-                    System.out.println("Enter the name of the plant to update:");
-                    String name = scanner.nextLine();
-
-                    Plant plantToUpdate = null;
-                    for (Plant plant : greenhouse.getPlants()) {
-                        if (plant.getPlantName().equals(name)) {
-                            plantToUpdate = plant;
-                            break;
-                        }
-                    }
-
-                    if (plantToUpdate == null) {
-                        System.out.println("No plant with the given name found.");
-                    } else {
-                        System.out.println("Enter the new name for the plant:");
-                        String newName = scanner.nextLine();
-                        greenhouse.updatePlant(plantToUpdate, newName);
-                    }
-                }
-                case 6 -> {
-                    System.out.println("Enter the name of the plant to remove:");
-                    String name = scanner.nextLine();
-
-                    Plant plantToRemove = null;
-                    for (Plant plant : greenhouse.getPlants()) {
-                        if (plant.getPlantName().equals(name)) {
-                            plantToRemove = plant;
-                            break;
-                        }
-                    }
-
-                    if (plantToRemove == null) {
-                        System.out.println("No plant with the given name found.");
-                    } else {
-                        greenhouse.removePlant(plantToRemove);
-                        System.out.println("Plant removed successfully.");
-                    }
-                }
-                case 7 -> {
-                    greenhouse.waterPlants();
-                    System.out.println("All plants have been watered.");
-                }
-                case 8 -> {
-                    System.out.println("Enter the temperature to set:");
-                    double temperature = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    sensor.setTemperature(temperature);
-                }
-                case 9 -> {
+                case 4 -> {
                     exit = true;
                     System.out.println("Exiting the program...");
                 }
-                default -> System.out.println("Invalid choice.");
+                default -> throw new InvalidChoiceException("Invalid choice.");
             }
         } while (!exit);
         scanner.close();
