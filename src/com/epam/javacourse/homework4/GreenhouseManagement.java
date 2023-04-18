@@ -182,7 +182,10 @@ public class GreenhouseManagement implements Greenhouse {
     public List<Plant> searchPlants(String searchTerm) {
         List<Plant> matchingPlants = new ArrayList<>();
         for (Plant plant : availablePlants) {
-            if (plant.getPlantName().toLowerCase().contains(searchTerm.toLowerCase()) ||
+            if (plant.getPlantName().equalsIgnoreCase(searchTerm)) {
+                matchingPlants.add(plant);
+                break;
+            } else if (plant.getPlantName().toLowerCase().contains(searchTerm.toLowerCase()) ||
                     plant.getPlantType().toLowerCase().contains(searchTerm.toLowerCase()) ||
                     plant.getNativeRegion().toLowerCase().contains(searchTerm.toLowerCase())) {
                 matchingPlants.add(plant);
