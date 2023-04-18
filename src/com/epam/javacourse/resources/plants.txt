@@ -1,0 +1,5 @@
+Name: Lily
+Type: Flowering Plant
+Native Region: Asia
+Flowering Time: 34
+

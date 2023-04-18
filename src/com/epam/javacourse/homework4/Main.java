@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws InvalidChoiceException {
-        Path path = Path.of("C:\\Users\\Sviatlana_Shedava\\IdeaProjects\\SviatlanaShedava5\\src\\com\\epam\\javacourse\\homework4\\plants.txt");
+    public static void main(String[] args) throws InvalidChoiceException, IllegalStateException {
+        Path path = Path.of("src/com/epam/javacourse/resources/plants.txt");
         GreenhouseManagement greenhouse = new GreenhouseManagement(path);
         Greenhouse mysteryGreenhouse = greenhouse.greenhouse;
         List<Plant> mysteryPlants = mysteryGreenhouse.getPlants();
@@ -22,7 +22,6 @@ public class Main {
 
         boolean exit = false;
         do {
-           // System.out.println("Enter 1 to create a new plant, 2 to receive available plants, 3 to buy a new plant, 4 to display all plants in the basket, 5 to update a plant, 6 to remove a plant, 7 to water the plants, 8 to set the temperature, 9 to exit:");
             System.out.println("Enter 1 Add a new plant to the greenhouse, 2 Remove a plant from the greenhouse, 3 Find a plant in the greenhouse by any parameter, 4 Quit:");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -66,55 +65,6 @@ public class Main {
                     }
                     greenhouse.savePlantsToFile();
                 }
-               /* case 2 -> {
-                    List<Plant> availablePlants = greenhouse.getAvailablePlants();
-                    if (availablePlants.isEmpty()) {
-                        System.out.println("No available plants found.");
-                    } else {
-                        System.out.println("Available plants:");
-                        for (Plant plant : availablePlants) {
-                            System.out.println(plant);
-                        }
-                    }
-                }
-                case 3 -> {
-                    System.out.println("Enter the name of the plant to buy:");
-                    String name = scanner.nextLine();
-
-                    greenhouse.buyPlant(name);
-                }
-                case 4 -> {
-                    List<Plant> reservedPlants = greenhouse.getReservedPlants();
-                    if (reservedPlants.isEmpty()) {
-                        System.out.println("No plants found.");
-                    } else {
-                        System.out.println("All plants in the basket:");
-                        for (Plant plant : reservedPlants) {
-                            System.out.println(plant);
-                        }
-                    }
-                }
-                case 5 -> {
-                    System.out.println("Enter the name of the plant to update:");
-                    String name = scanner.nextLine();
-
-                    Plant plantToUpdate = null;
-                    for (Plant plant : greenhouse.getPlants()) {
-                        if (plant.getPlantName().equals(name)) {
-                            plantToUpdate = plant;
-                            break;
-                        }
-                    }
-
-                    if (plantToUpdate == null) {
-                        System.out.println("No plant with the given name found.");
-                    } else {
-                        System.out.println("Enter the new name for the plant:");
-                        String newName = scanner.nextLine();
-                        greenhouse.updatePlant(plantToUpdate, newName);
-                    }
-                }
-                case 6 -> { */
                 case 2 -> {
                     System.out.println("Enter the name of the plant to remove:");
                     String plant = scanner.nextLine();
@@ -138,18 +88,6 @@ public class Main {
                         }
                     }
                 }
-               /* case 7 -> {
-                    greenhouse.waterPlants();
-                    System.out.println("All plants have been watered.");
-                }
-                case 8 -> {
-                    System.out.println("Enter the temperature to set:");
-                    double temperature = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    sensor.setTemperature(temperature);
-                }
-                case 9 -> { */
                 case 4 -> {
                     exit = true;
                     System.out.println("Exiting the program...");

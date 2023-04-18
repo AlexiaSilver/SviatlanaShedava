@@ -2,19 +2,17 @@ package com.epam.javacourse.homework4;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class GreenhouseManagement implements Greenhouse {
-    private static final Path FILE_NAME = Paths.get("C:\\Users\\Sviatlana_Shedava\\IdeaProjects\\SviatlanaShedava5\\src\\com\\epam\\javacourse\\homework4\\plants.txt");
-    private static final String DELIMITER = ";";
+    private final Path path;
     private final List<Plant> reservedPlants;
     private final List<Plant> availablePlants;
     public double temperature;
 
     public GreenhouseManagement(Path path) {
+        this.path = path;
         this.reservedPlants = new ArrayList<>();
         this.availablePlants = new ArrayList<>();
         this.temperature = 0;
@@ -74,35 +72,12 @@ public class GreenhouseManagement implements Greenhouse {
 
     @Override
     public void savePlantsToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(String.valueOf(FILE_NAME)))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(String.valueOf(path)))) {
             for (Plant plant : availablePlants) {
                 writer.println(plant.toString());
             }
         } catch (IOException e) {
             System.err.println("Error saving plants to file: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void readPlantsFromFile() {
-        try (Scanner scanner = new Scanner(FILE_NAME)) {
-            availablePlants.clear();
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(DELIMITER);
-                String plantType = parts[0];
-                String plantName = parts[1];
-                String plantDescription = parts[2];
-                Plant plant = new Plant(plantName, plantType, plantDescription) {
-                    @Override
-                    public String getPlantType() {
-                        return null;
-                    }
-                };
-                availablePlants.add(plant);
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading plants from file: " + e.getMessage());
         }
     }
 
@@ -167,6 +142,7 @@ public class GreenhouseManagement implements Greenhouse {
 
         @Override
         public void buyPlant(String name) {
+            System.out.println("Not available.");
         }
 
         @Override
@@ -177,33 +153,32 @@ public class GreenhouseManagement implements Greenhouse {
         }
 
         @Override
-        public void readPlantsFromFile() {
-
-        }
-
-        @Override
         public List<Plant> getPlants() {
             return mysteryPlant;
         }
 
         @Override
         public void addPlant(Plant plant) {
+            System.out.println("The plant is still growing..");
         }
 
         @Override
         public void updatePlant(Plant plant, String newName) {
+            System.out.println("Not available.");
         }
 
         @Override
         public void removePlant(String plantName) throws InvalidOptionException {
+            System.out.println("Not available.");
 
         }
 
         @Override
         public void savePlantsToFile() {
-
+            System.out.println("Not available.");
         }
     };
+
     public List<Plant> searchPlants(String searchTerm) {
         List<Plant> matchingPlants = new ArrayList<>();
         for (Plant plant : availablePlants) {

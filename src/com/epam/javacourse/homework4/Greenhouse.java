@@ -17,8 +17,6 @@ public interface Greenhouse {
      */
     void waterPlants();
 
-    void readPlantsFromFile();
-
     /**
      * Receives the list of plants.
      */
@@ -44,6 +42,4 @@ public interface Greenhouse {
      * Saves plants to file
      */
     void savePlantsToFile();
-
-
 }
