@@ -185,11 +185,13 @@ public class GreenhouseManagement implements Greenhouse {
             if (plant.getPlantName().equalsIgnoreCase(searchTerm)) {
                 matchingPlants.add(plant);
                 break;
-            } else if (plant.getPlantName().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                    plant.getPlantType().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                    plant.getNativeRegion().toLowerCase().contains(searchTerm.toLowerCase())) {
+            } else if (plant.getPlantName().toLowerCase().matches("\\b" + searchTerm.toLowerCase() + "\\b") ||
+                    plant.getPlantType().toLowerCase().matches("\\b" + searchTerm.toLowerCase() + "\\b") ||
+                    plant.getNativeRegion().toLowerCase().matches("\\b" + searchTerm.toLowerCase() + "\\b")) {
                 matchingPlants.add(plant);
             }
+        }
+        if (matchingPlants.isEmpty()) {
         }
         return matchingPlants;
     }
