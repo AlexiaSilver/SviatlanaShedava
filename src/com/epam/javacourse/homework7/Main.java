@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String inputFilePath = "src/com/epam/javacourse/resources/poem.txt";
+        final String inputFilePath = "src/com/epam/javacourse/resources/poem.txt";
         String outputFilePath = "src/com/epam/javacourse/resources/poem.txt";
         ArrayList<String> lines = new ArrayList<>();
         // Reverse the contents of a file (1)
@@ -17,7 +17,7 @@ public class Main {
 
         //Sort the lines by length (2)
         try {
-            List<String> sortedLines = StringOperations.sortLinesByLength("src/com/epam/javacourse/resources/poem.txt");
+            List<String> sortedLines = StringOperations.sortLinesByLength(inputFilePath);
             System.out.println("Sorted lines:");
             for (String line : sortedLines) {
                 if (!line.trim().isEmpty()) {
@@ -47,7 +47,7 @@ public class Main {
 
         // Get the unique words in a file (4)
         try {
-            Set<String> uniqueWords = FileOperations.getUniqueWords("src/com/epam/javacourse/resources/poem.txt");
+            Set<String> uniqueWords = FileOperations.getUniqueWords(inputFilePath);
             System.out.println("Unique words in poem.txt: " + uniqueWords);
         } catch (IOException e) {
             System.out.println("An error occurred while getting unique words: " + e.getMessage());
@@ -55,7 +55,7 @@ public class Main {
 
         // Get the frequency of words in a file (5)
         try {
-            Map<String, Integer> wordFrequency = FileOperations.getWordFrequency("src/com/epam/javacourse/resources/poem.txt");
+            Map<String, Integer> wordFrequency = FileOperations.getWordFrequency(inputFilePath);
             System.out.println("Word frequency in poem.txt: " + wordFrequency);
         } catch (IOException e) {
             System.out.println("An error occurred while getting word frequency: " + e.getMessage());
