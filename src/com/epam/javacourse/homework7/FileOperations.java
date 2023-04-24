@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileOperations {
-    public static void reverseFile(String inputFilePath, String outputFilePath) throws IOException {
+    public static void reverseFile(String inputFilePath) throws IOException {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
             String line;
@@ -13,7 +13,7 @@ public class FileOperations {
             }
         }
         Collections.reverse(lines);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFilePath))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(inputFilePath))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();

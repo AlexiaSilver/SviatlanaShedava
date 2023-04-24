@@ -6,11 +6,10 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         final String inputFilePath = "src/com/epam/javacourse/resources/poem.txt";
-        String outputFilePath = "src/com/epam/javacourse/resources/poem.txt";
         ArrayList<String> lines = new ArrayList<>();
         // Reverse the contents of a file (1)
         try {
-            FileOperations.reverseFile(inputFilePath, outputFilePath);
+            FileOperations.reverseFile(inputFilePath);
         } catch (IOException e) {
             System.out.println("An error occurred while reversing the file: " + e.getMessage());
         }
