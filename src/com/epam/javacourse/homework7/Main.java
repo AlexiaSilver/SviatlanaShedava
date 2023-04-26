@@ -3,6 +3,7 @@ package com.epam.javacourse.homework7;
 import java.io.IOException;
 import java.util.*;
 
+
 public class Main {
     public static void main(String[] args) {
         final String inputFilePath = "src/com/epam/javacourse/resources/poem.txt";
@@ -21,22 +22,24 @@ public class Main {
         int result = mathOperations.sum(a, b);
         System.out.println("2. " + "The sum of " + a + " and " + b + " is " + result);
 
-        // Reverse the order of lines in a file (1)
+        // Reverse the contents of a file (1)
         try {
-            List<String> reversedLines = StringOperations.reverseLines(inputFilePath);
-            System.out.println("3. " + "Reversed lines:");
-            reversedLines.forEach(System.out::println);
+            FileOperations.reverseFile(inputFilePath);
         } catch (IOException e) {
             System.out.println("An error occurred while reversing the file: " + e.getMessage());
         }
 
         // Sort lines by length (2)
-        List<String> sortedLines = StringOperations.StringUtils.sortLinesByLength(Collections.singletonList(inputFilePath));
-        System.out.println("4. " + "Sorted lines:");
-        for (String line : sortedLines) {
-            if (!line.trim().isEmpty()) {
-                System.out.println(line);
+        try {
+            List<String> sortedLines = StringOperations.sortLinesByLength(inputFilePath);
+            System.out.println("3. " + "Sorted lines:");
+            for (String line : sortedLines) {
+                if (!line.trim().isEmpty()) {
+                    System.out.println(line);
+                }
             }
+        } catch (IOException e) {
+            System.out.println("An error occurred while sorting the lines: " + e.getMessage());
         }
 
         // Perform set operations (3)
@@ -44,15 +47,15 @@ public class Main {
         Set<Integer> set2 = new HashSet<>(Arrays.asList(2, 3, 4));
 
         Set<Integer> unionSet = SetOperations.union(set1, set2);
-        System.out.println("5. " + "Union of " + set1 + " and " + set2 + " is " + unionSet);
+        System.out.println("4. " + "Union of " + set1 + " and " + set2 + " is " + unionSet);
 
         Set<Integer> intersectionSet = SetOperations.intersection(set1, set2);
-        System.out.println("6. " + "Intersection of " + set1 + " and " + set2 + " is " + intersectionSet);
+        System.out.println("5. " + "Intersection of " + set1 + " and " + set2 + " is " + intersectionSet);
 
         // Get the unique words in a file (4)
         try {
             Set<String> uniqueWords = FileOperations.getUniqueWords(inputFilePath);
-            System.out.println("7. " + "Unique words in poem.txt: " + uniqueWords);
+            System.out.println("6. " + "Unique words in poem.txt: " + uniqueWords);
         } catch (IOException e) {
             System.out.println("An error occurred while getting unique words: " + e.getMessage());
         }
@@ -60,7 +63,7 @@ public class Main {
         // Get the frequency of words in a file (5)
         try {
             Map<String, Integer> wordFrequency = FileOperations.getWordFrequency(inputFilePath);
-            System.out.println("8. " + "Word frequency in poem.txt: " + wordFrequency);
+            System.out.println("7. " + "Word frequency in poem.txt: " + wordFrequency);
         } catch (IOException e) {
             System.out.println("An error occurred while getting word frequency: " + e.getMessage());
         }
