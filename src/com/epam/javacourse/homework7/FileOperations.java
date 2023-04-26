@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileOperations {
-    public static void reverseFile(String inputFilePath) throws IOException {
+    public static List<String> reverseFileWithStreams(String inputFilePath) throws IOException {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
             String line;
@@ -19,6 +19,7 @@ public class FileOperations {
                 bw.newLine();
             }
         }
+        return lines;
     }
 
     public static Set<String> getUniqueWords(String filePath) throws IOException {
@@ -31,6 +32,22 @@ public class FileOperations {
             }
         }
         return uniqueWords;
+    }
+
+    public static int getCountOfWord(String filePath, String word) throws IOException {
+        int count = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split("\\s+");
+                for (String w : words) {
+                    if (w.equals(word)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
     public static Map<String, Integer> getWordFrequency(String filePath) throws IOException {
         Map<String, Integer> wordFrequency = new HashMap<>();
