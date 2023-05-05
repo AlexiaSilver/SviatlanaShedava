@@ -2,46 +2,43 @@ package com.epam.javacourse.homework7;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileOperations {
     public static void reverseFile(String inputFilePath) throws IOException {
-        List<String> lines = new ArrayList<>();
+        List<String> lines;
         try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
+            lines = br.lines().collect(Collectors.toList());
         }
         Collections.reverse(lines);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(inputFilePath))) {
-            for (String line : lines) {
-                bw.write(line);
-                bw.newLine();
-            }
+            lines.forEach(line -> {
+                try {
+                    bw.write(line);
+                    bw.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
     public static Set<String> getUniqueWords(String filePath) throws IOException {
-        Set<String> uniqueWords = new HashSet<>();
+        Set<String> uniqueWords;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] words = line.split("\\s+");
-                uniqueWords.addAll(Arrays.asList(words));
-            }
+            uniqueWords = br.lines()
+                    .flatMap(line -> Arrays.stream(line.split("\\s+")))
+                    .collect(Collectors.toSet());
         }
         return uniqueWords;
     }
+
     public static Map<String, Integer> getWordFrequency(String filePath) throws IOException {
-        Map<String, Integer> wordFrequency = new HashMap<>();
+        Map<String, Integer> wordFrequency;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] words = line.split("\\s+");
-                for (String word : words) {
-                    wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
-                }
-            }
+            wordFrequency = br.lines()
+                    .flatMap(line -> Arrays.stream(line.split("\\s+")))
+                    .collect(Collectors.toMap(word -> word, word -> 1, Integer::sum));
         }
         return wordFrequency;
     }
