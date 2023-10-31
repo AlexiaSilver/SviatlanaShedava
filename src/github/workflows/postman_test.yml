@@ -1,0 +1,33 @@
+trigger: none
+
+pool:
+  name: 'AWS PreProd Ubuntu 2004'
+
+parameters:
+  - name: CollectionFile
+    type: string
+    displayName: Collection JSON file
+    values:
+      - ChemicalRESTAPIConnect  - NEW.postman_collection.json
+
+  - name: EnvironmentVarFile
+    type: string
+    displayName: Environment JSON file
+    values:
+      - default-env.json
+
+steps:
+  - script: npm install -g newman
+    displayName: 'Install Newman'
+
+  - script: |
+      ls -la
+      newman run ${{ parameters.CollectionFile }} --environment ${{ parameters.EnvironmentVarFile }} --reporters cli,junit --reporter-junit-export test-report.xml
+    displayName: 'Execute Postman tests and save output to a text file'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'TestReports'
+      pathtoPublish: '.'
+    displayName: 'Publish Test Report as Artifact'
+    condition: always() # Ensure that this step runs regardless of the pipeline status
